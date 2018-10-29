@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './Styles.css';
+import ShoppingList from './components/ShoppingList';
+import Background from '../src/assets/images/shopping.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
+
+const backgroundImage = {
+    backgroundImage: `url(${Background})`,
+    backgroundSize: 'cover',
+    overflow: 'hidden'
+}
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div style={backgroundImage} >
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <h1>Shopping List <FontAwesomeIcon icon={faShoppingBasket}/> </h1>          
         </header>
+        <ShoppingList/>
       </div>
     );
   }
