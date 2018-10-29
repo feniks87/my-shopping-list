@@ -16,7 +16,7 @@ class App extends Component {
     return (
       <div style={backgroundImage} >
         <header className="App-header">
-          <h1>Shopping List <FontAwesomeIcon icon={faShoppingBasket}/> </h1>          
+          <h1>Shopping List <FontAwesomeIcon icon={faShoppingBasket}/> </h1>
         </header>
         <ShoppingList/>
       </div>
