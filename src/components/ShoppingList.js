@@ -27,7 +27,6 @@ class ShoppingList extends Component {
             .catch(error => console.log(error));
         };
 
-
     inputChangeHandler = (event) => {
         this.setState({
             newItemName: event.target.value
@@ -93,13 +92,11 @@ class ShoppingList extends Component {
         const toggleOn = (<FontAwesomeIcon icon={faEye} title="Show items"/>);
         const toggleOff = (<FontAwesomeIcon icon={faEyeSlash} title="Hide items"/>);
 
-
-
         return (
             <div className="container Container float-sm-right">
             {this.state.showAlert ?
                 <Alert className="w-50 mx-auto text-center" color="success" isOpen={this.state.showAlert} toggle={this.onDismissHandler}>Your shopping list has been saved</Alert> : null}
-            }
+            
                 <Form inline  onSubmit={this.addItemHandler}>
                     <FormGroup className="mx-auto">
                         <Input className="mx-2 border-secondary" type="text" value={this.state.newItemName} onChange={this.inputChangeHandler} placeholder="Enter item" required/>
