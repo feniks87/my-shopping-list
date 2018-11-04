@@ -3,43 +3,43 @@ import Items from './Items';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus, faEye, faEyeSlash, faSave } from '@fortawesome/free-solid-svg-icons';
 import { Alert, Form, FormGroup, Input } from 'reactstrap';
-import ax from '../axios-items';
-
+import axios from '../axios-items';
+import uuidv1 from 'uuid/v1';
 
 class ShoppingList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            item: {
-                itemName: '',
-                itemId: 1,
-                selected: false
-            },
+            newItemName: '',
             items: [],
             showItems: true,
             showAlert: false
         }
     }
 
+    componentDidMount () {
+        axios.get('/ShoppingList.json')
+            .then(response => {
+                if (response.data != null) {
+                    this.setState({items: response.data});
+                }
+            })
+            .catch(error => console.log(error));
+        };
+
+
     inputChangeHandler = (event) => {
         this.setState({
-            item: {
-                ...this.state.item,
-                itemName: event.target.value
-            }
+            newItemName: event.target.value
         })
     }
 
     addItemHandler = (event) => {
         event.preventDefault();
-        if (this.state.item.itemName && this.state.item.itemName.trim().length > 0) {
+        if (this.state.newItemName && this.state.newItemName.trim().length > 0) {
             this.setState((prevState) => ({
-                item: {
-                    ...prevState.item,
-                    itemId: prevState.item.itemId + 1,
-                    itemName: ''
-                },
-                items: [...prevState.items, prevState.item]
+                items: [...prevState.items, {itemName: prevState.newItemName, itemId: uuidv1(), selected: false}],
+                newItemName: ''
             }));
         }
     }
@@ -67,15 +67,12 @@ class ShoppingList extends Component {
         this.setState({ showItems: !doesShow });
     }
 
-    onDismiss = () => {
+    onDismissHandler = () => {
         this.setState({ showAlert: false });
     }
 
     saveListHandler = () => {
-        const shoppingList = {
-            items: this.state.items,
-        }
-        ax.post('/shoppingList.json', shoppingList)
+        axios.put('/ShoppingList.json', this.state.items)
             .then(responce => console.log(responce))
             .catch(error => console.log(error));
         this.setState ({ showAlert: true });
@@ -83,7 +80,6 @@ class ShoppingList extends Component {
 
     render() {
         let shoppingItems = null;
-
         if (this.state.showItems) {
             shoppingItems = (
             <div>
@@ -94,22 +90,24 @@ class ShoppingList extends Component {
             );
         }
 
-        const toggleOn = (<FontAwesomeIcon icon={faEye} title="Show items"/>)
-        const toggleOff = (<FontAwesomeIcon icon={faEyeSlash} title="Hide items"/>)
+        const toggleOn = (<FontAwesomeIcon icon={faEye} title="Show items"/>);
+        const toggleOff = (<FontAwesomeIcon icon={faEyeSlash} title="Hide items"/>);
+
+
 
         return (
             <div className="container Container float-sm-right">
             {this.state.showAlert ?
-                <Alert className="w-50 mx-auto text-center" color="success" isOpen={this.state.showAlert} toggle={this.onDismiss}>Your shopping list has been saved</Alert> : null}}
+                <Alert className="w-50 mx-auto text-center" color="success" isOpen={this.state.showAlert} toggle={this.onDismissHandler}>Your shopping list has been saved</Alert> : null}
+            }
                 <Form inline  onSubmit={this.addItemHandler}>
                     <FormGroup className="mx-auto">
-                        <Input className="mx-2 border-secondary" type="text" value={this.state.item.itemName} onChange={this.inputChangeHandler} placeholder="Enter item" required/>
-                        <button className="btn btn-md btn-outline-secondary align-top mx-2" type="submit" title="Add item">
+                        <Input className="mx-2 border-secondary" type="text" value={this.state.newItemName} onChange={this.inputChangeHandler} placeholder="Enter item" required/>
+                        <button className="btn btn-md btn-outline-secondary align-top mx-2" disabled={!this.state.newItemName} type="submit" title="Add item">
                             <FontAwesomeIcon icon={faPlus}/>
                         </button>
-                        <button className="btn btn-md btn-outline-secondary align-top mx-2" type="button" onClick={this.deleteItemHandler} title="Delete item">
-                            <FontAwesomeIcon icon={faMinus}/>
-                        </button>
+                        <button className="btn btn-md btn-outline-secondary align-top mx-2" disabled={!this.state.items.some((e) => e.selected)} type="button" onClick={this.deleteItemHandler} title="Delete items">
+                            <FontAwesomeIcon icon={faMinus}/></button>
                         <button className="btn btn-md btn-outline-secondary align-top mx-2" type="button" onClick={this.showItemsHandler}>
                             {this.state.showItems ? toggleOff : toggleOn }
                         </button>
