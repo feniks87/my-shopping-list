@@ -93,11 +93,11 @@ class ShoppingList extends Component {
         const toggleOff = (<FontAwesomeIcon icon={faEyeSlash} title="Hide items"/>);
 
         return (
-            <div className="container Container float-sm-right">
+            <div className="container ShoppingList mx-auto">
             {this.state.showAlert ?
-                <Alert className="w-50 mx-auto text-center" color="success" isOpen={this.state.showAlert} toggle={this.onDismissHandler}>Your shopping list has been saved</Alert> : null}
-            
-                <Form inline  onSubmit={this.addItemHandler}>
+                <Alert className="mx-auto text-center" color="success" isOpen={this.state.showAlert} toggle={this.onDismissHandler}>Your shopping list has been saved</Alert> : null}
+
+                <Form inline onSubmit={this.addItemHandler}>
                     <FormGroup className="mx-auto">
                         <Input className="mx-2 border-secondary" type="text" value={this.state.newItemName} onChange={this.inputChangeHandler} placeholder="Enter item" required/>
                         <button className="btn btn-md btn-outline-secondary align-top mx-2" disabled={!this.state.newItemName} type="submit" title="Add item">

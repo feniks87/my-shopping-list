@@ -21,14 +21,22 @@
   color: #61dafb;
 }
 
-.Container {
-  min-height: calc(100vh - 190px);
+.ShoppingList {
+  min-height: calc(100vh - 220px);
   padding-bottom: 100px;
+  padding-top: 100px;
+  margin-bottom: 80px;
   font-family: 'Indie Flower', cursive;
   font-size: 1.5em;
+  background-color: #F3F7F8;
+  opacity: 0.9;
+  border: 2px solid rgba(146, 140, 136, 0.8);
+  border-radius: 5px;
+  box-shadow: 0 1px 1px rgba(56, 53, 50, 0.075) inset, 0 0 8px rgba(59, 56, 54, 0.6);
+
 }
 
-textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {   
+textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
   border-color: rgba(119, 103, 92, 0.8);
   box-shadow: 0 1px 1px rgba(56, 53, 50, 0.075) inset, 0 0 8px rgba(59, 56, 54, 0.6);
   outline: 0 none;

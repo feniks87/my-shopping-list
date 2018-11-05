@@ -12,7 +12,7 @@ const Items = (props) => {
     }
 
     return (
-        <ListGroup className="mx-auto mt-5 w-50">
+        <ListGroup className="mx-auto mt-5">
             {props.items.map((item) =>
             <ListGroupItem className="border-secondary" style={item.selected ? deletedStyle : null } key={item.itemId}>{item.itemName}
                 <span className="float-right">
