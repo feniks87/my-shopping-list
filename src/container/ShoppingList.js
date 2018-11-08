@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Items from './Items';
+import Items from '../components/Items';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus, faEye, faEyeSlash, faSave } from '@fortawesome/free-solid-svg-icons';
 import { Alert, Form, FormGroup, Input } from 'reactstrap';
@@ -11,6 +11,7 @@ class ShoppingList extends Component {
         super(props);
         this.state = {
             newItemName: '',
+            newItemQuantity: '',
             items: [],
             showItems: true,
             showAlert: false
@@ -27,18 +28,25 @@ class ShoppingList extends Component {
             .catch(error => console.log(error));
         };
 
-    inputChangeHandler = (event) => {
+    nameChangeHandler = (event) => {
         this.setState({
             newItemName: event.target.value
-        })
+        });
+    }
+
+    quantityChangeHandler = (event) => {
+        this.setState({
+            newItemQuantity: event.target.value
+        });
     }
 
     addItemHandler = (event) => {
         event.preventDefault();
-        if (this.state.newItemName && this.state.newItemName.trim().length > 0) {
+        if (this.state.newItemName && this.state.newItemName.trim().length > 0 && this.state.newItemQuantity && this.state.newItemQuantity.trim().length > 0) {
             this.setState((prevState) => ({
-                items: [...prevState.items, {itemName: prevState.newItemName, itemId: uuidv1(), selected: false}],
-                newItemName: ''
+                items: [...prevState.items, {itemName: prevState.newItemName, itemId: uuidv1(), selected: false, itemQuantity: prevState.newItemQuantity}],
+                newItemName: '',
+                newItemQuantity: ''
             }));
         }
     }
@@ -58,7 +66,7 @@ class ShoppingList extends Component {
         const filteredItems = this.state.items.filter(item => !item.selected);
         this.setState({
             items: filteredItems
-        })
+        });
     }
 
     showItemsHandler = () => {
@@ -96,26 +104,26 @@ class ShoppingList extends Component {
             <div className="container ShoppingList mx-auto">
             {this.state.showAlert ?
                 <Alert className="mx-auto text-center" color="success" isOpen={this.state.showAlert} toggle={this.onDismissHandler}>Your shopping list has been saved</Alert> : null}
-
                 <Form inline onSubmit={this.addItemHandler}>
                     <FormGroup className="mx-auto">
-                        <Input className="mx-2 border-secondary" type="text" value={this.state.newItemName} onChange={this.inputChangeHandler} placeholder="Enter item" required/>
-                        <button className="btn btn-md btn-outline-secondary align-top mx-2" disabled={!this.state.newItemName} type="submit" title="Add item">
+                        <Input className="ml-3 my-2 border-secondary" type="text" value={this.state.newItemName} onChange={this.nameChangeHandler} placeholder="Enter item" required/>
+                        <Input className="ml-3 my-2 border-secondary" type="text" value={this.state.newItemQuantity} onChange={this.quantityChangeHandler} placeholder="Enter quantity" required/>
+                        <button className="btn btn-md btn-outline-secondary align-top ml-3 my-2" disabled={!(this.state.newItemName && this.state.newItemQuantity)} type="submit" title="Add item">
                             <FontAwesomeIcon icon={faPlus}/>
                         </button>
-                        <button className="btn btn-md btn-outline-secondary align-top mx-2" disabled={!this.state.items.some((e) => e.selected)} type="button" onClick={this.deleteItemHandler} title="Delete items">
+                        <button className="btn btn-md btn-outline-secondary align-top ml-3 my-2" disabled={!this.state.items.some((e) => e.selected)} type="button" onClick={this.deleteItemHandler} title="Delete items">
                             <FontAwesomeIcon icon={faMinus}/></button>
-                        <button className="btn btn-md btn-outline-secondary align-top mx-2" type="button" onClick={this.showItemsHandler}>
+                        <button className="btn btn-md btn-outline-secondary align-top ml-3 my-2" type="button" onClick={this.showItemsHandler}>
                             {this.state.showItems ? toggleOff : toggleOn }
                         </button>
-                        <button className="btn btn-md btn-outline-secondary align-top mx-2" type="button" onClick={this.saveListHandler} title="Save list">
+                        <button className="btn btn-md btn-outline-secondary align-top ml-3 my-2" type="button" onClick={this.saveListHandler} title="Save list">
                             <FontAwesomeIcon icon={faSave}/>
                         </button>
                     </FormGroup>
                 </Form>
                 {shoppingItems}
             </div>
-        )
+        );
     }
 }
 

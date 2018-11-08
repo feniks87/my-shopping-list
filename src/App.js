@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Styles.css';
-import ShoppingList from './components/ShoppingList';
+import ShoppingList from './container/ShoppingList';
 import Background from '../src/assets/images/shopping.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
