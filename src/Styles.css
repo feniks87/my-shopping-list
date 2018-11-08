@@ -19,8 +19,8 @@
 
 .ShoppingList {
   min-height: calc(100vh - 220px);
-  padding-bottom: 100px;
-  padding-top: 100px;
+  padding-bottom: 50px;
+  padding-top: 50px;
   margin-bottom: 80px;
   font-family: 'Indie Flower', cursive;
   font-size: 1.5em;

@@ -42,7 +42,7 @@ class ShoppingList extends Component {
 
     addItemHandler = (event) => {
         event.preventDefault();
-        if (this.state.newItemName && this.state.newItemName.trim().length > 0 && this.state.newItemQuantity && this.state.newItemQuantity.trim().length > 0) {
+        if (this.state.newItemName && this.state.newItemName.trim().length > 0) {
             this.setState((prevState) => ({
                 items: [...prevState.items, {itemName: prevState.newItemName, itemId: uuidv1(), selected: false, itemQuantity: prevState.newItemQuantity}],
                 newItemName: '',
@@ -106,17 +106,19 @@ class ShoppingList extends Component {
                 <Alert className="mx-auto text-center" color="success" isOpen={this.state.showAlert} toggle={this.onDismissHandler}>Your shopping list has been saved</Alert> : null}
                 <Form inline onSubmit={this.addItemHandler}>
                     <FormGroup className="mx-auto">
-                        <Input className="ml-3 my-2 border-secondary" type="text" value={this.state.newItemName} onChange={this.nameChangeHandler} placeholder="Enter item" required/>
-                        <Input className="ml-3 my-2 border-secondary" type="text" value={this.state.newItemQuantity} onChange={this.quantityChangeHandler} placeholder="Enter quantity" required/>
-                        <button className="btn btn-md btn-outline-secondary align-top ml-3 my-2" disabled={!(this.state.newItemName && this.state.newItemQuantity)} type="submit" title="Add item">
+                        <Input className="mr-2 my-2 border-secondary" type="text" value={this.state.newItemName} onChange={this.nameChangeHandler} placeholder="Enter item" required/>
+                        <Input className="my-2 border-secondary" type="text" value={this.state.newItemQuantity} onChange={this.quantityChangeHandler} placeholder="Enter quantity"/>
+                    </FormGroup>
+                    <FormGroup className="mx-auto">
+                        <button className="btn btn-md btn-outline-secondary align-top my-2" disabled={!this.state.newItemName} type="submit" title="Add item">
                             <FontAwesomeIcon icon={faPlus}/>
                         </button>
-                        <button className="btn btn-md btn-outline-secondary align-top ml-3 my-2" disabled={!this.state.items.some((e) => e.selected)} type="button" onClick={this.deleteItemHandler} title="Delete items">
+                        <button className="btn btn-md btn-outline-secondary align-top ml-2 my-2" disabled={!this.state.items.some((e) => e.selected)} type="button" onClick={this.deleteItemHandler} title="Delete items">
                             <FontAwesomeIcon icon={faMinus}/></button>
-                        <button className="btn btn-md btn-outline-secondary align-top ml-3 my-2" type="button" onClick={this.showItemsHandler}>
+                        <button className="btn btn-md btn-outline-secondary align-top ml-2 my-2" type="button" onClick={this.showItemsHandler}>
                             {this.state.showItems ? toggleOff : toggleOn }
                         </button>
-                        <button className="btn btn-md btn-outline-secondary align-top ml-3 my-2" type="button" onClick={this.saveListHandler} title="Save list">
+                        <button className="btn btn-md btn-outline-secondary align-top ml-2 my-2" type="button" onClick={this.saveListHandler} title="Save list">
                             <FontAwesomeIcon icon={faSave}/>
                         </button>
                     </FormGroup>
