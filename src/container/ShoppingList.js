@@ -111,7 +111,7 @@ class ShoppingList extends Component {
                         </button>
                         <button className="btn btn-md btn-outline-secondary align-top ml-2 my-2" disabled={!this.state.items.some((e) => e.selected)} type="button" onClick={this.deleteItemHandler} title="Delete items">
                             <FontAwesomeIcon icon={faMinus}/></button>
-                        <button className="btn btn-md btn-outline-secondary align-top ml-2 my-2" type="button" onClick={this.showItemsHandler}>
+                        <button className="btn btn-md btn-outline-secondary align-top ml-2 my-2" disabled={!this.state.items.some((e) => e.selected)} type="button" onClick={this.showItemsHandler}>
                             {this.state.showAllItems ? toggleOff : toggleOn }
                         </button>
                         <button className="btn btn-md btn-outline-secondary align-top ml-2 my-2" type="button" onClick={this.saveListHandler} title="Save list">
