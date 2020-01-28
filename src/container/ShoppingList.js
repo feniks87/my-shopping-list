@@ -13,7 +13,7 @@ class ShoppingList extends Component {
             newItemName: '',
             newItemQuantity: '',
             items: [],
-            showItems: true,
+            showAllItems: true,
             showAlert: false
         }
     }
@@ -53,13 +53,10 @@ class ShoppingList extends Component {
 
     toggleButtonHandler = (id) => {
         let clickedItem = this.state.items.find(item => item.itemId === id);
-        const itemIndex = this.state.items.indexOf(clickedItem);
         clickedItem.selected = !clickedItem.selected;
-        let newItems = this.state.items;
-        newItems.splice(itemIndex, 1, clickedItem);
-        this.setState({
-            items: newItems
-        });
+        this.setState((prevState) => ({
+            items: prevState.items
+        }));
     }
 
     deleteItemHandler = () => {
@@ -70,8 +67,9 @@ class ShoppingList extends Component {
     }
 
     showItemsHandler = () => {
-        const doesShow = this.state.showItems;
-        this.setState({ showItems: !doesShow });
+        this.setState({
+            showAllItems: !this.state.showAllItems
+        })
     }
 
     onDismissHandler = () => {
@@ -86,19 +84,17 @@ class ShoppingList extends Component {
     }
 
     render() {
-        let shoppingItems = null;
-        if (this.state.showItems) {
-            shoppingItems = (
+        const notSelectedItem = this.state.items.filter(item => !item.selected);
+        let shoppingItems = (
             <div>
                 <Items
-                    items={this.state.items}
+                    items={this.state.showAllItems ? this.state.items : notSelectedItem}
                     click={this.toggleButtonHandler} />
             </div>
-            );
-        }
+        );
 
-        const toggleOn = (<FontAwesomeIcon icon={faEye} title="Show items"/>);
-        const toggleOff = (<FontAwesomeIcon icon={faEyeSlash} title="Hide items"/>);
+        const toggleOn = (<FontAwesomeIcon icon={faEye} title="Show all items"/>);
+        const toggleOff = (<FontAwesomeIcon icon={faEyeSlash} title="Hide checked items"/>);
 
         return (
             <div className="container ShoppingList mx-auto">
@@ -116,7 +112,7 @@ class ShoppingList extends Component {
                         <button className="btn btn-md btn-outline-secondary align-top ml-2 my-2" disabled={!this.state.items.some((e) => e.selected)} type="button" onClick={this.deleteItemHandler} title="Delete items">
                             <FontAwesomeIcon icon={faMinus}/></button>
                         <button className="btn btn-md btn-outline-secondary align-top ml-2 my-2" type="button" onClick={this.showItemsHandler}>
-                            {this.state.showItems ? toggleOff : toggleOn }
+                            {this.state.showAllItems ? toggleOff : toggleOn }
                         </button>
                         <button className="btn btn-md btn-outline-secondary align-top ml-2 my-2" type="button" onClick={this.saveListHandler} title="Save list">
                             <FontAwesomeIcon icon={faSave}/>
